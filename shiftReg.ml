@@ -8,12 +8,12 @@ open WiringPiOcaml
 (** reg : (pin_value = p_v, pin_shift = p_s, pin_apply = p_a). It is
     used to contain the informations about connections.
     The invert variable is used in order to revert the mode (false = lighted,
-    true = not lighted) **)
-type reg = {p_v : int; p_s : int; p_a : int; invert : bool;}
+    true = not lighted). The pulse function is only used with applyReg **)
+type reg = {p_v : int; p_s : int; p_a : int; pulse : bool; invert : bool;}
 
 
-let genReg ?invert:(invert = false) pin_value pin_shift pin_apply =
-  {p_v = pin_value; p_s = pin_shift; p_a = pin_apply; invert}
+let genReg ?pulse:(pulse = false) ?invert:(invert = false) pin_value pin_shift pin_apply =
+  {p_v = pin_value; p_s = pin_shift; p_a = pin_apply; pulse; invert}
 
 let write pin value = digitalWrite pin (if value then 1 else 0)
 
@@ -28,7 +28,7 @@ let initReg ?nb_reg:(nb_reg = 1) reg =
   write reg.p_a false;
   Array.make (8*nb_reg) false (* return back an array for all pieces *)
 
-(* Functions related to basic action of the register *)
+(** Functions related to basic action of the register **)
 let shift reg value =
     write reg.p_s false;
     write reg.p_v (value <> reg.invert); (* On inverse si besoin *)
@@ -36,15 +36,16 @@ let shift reg value =
 let validate reg =
   write reg.p_a true;
   write reg.p_a false
-    
+
 (** This function apply all modifications to the register in the same time **)
-let applyReg reg leds =
+let applyRegAll reg leds =
   write reg.p_a false;
   for i = (Array.length leds) - 1 downto 0 do
     shift reg leds.(i)
   done;
   validate reg
     
+(** This function opens and closes very quickly each LED, one after the other**)    
 let applyRegPulse reg leds ?d_t:(d_t = 3000) time =
   let t = Unix.gettimeofday () in
   let first_time = ref true in
@@ -61,13 +62,23 @@ let applyRegPulse reg leds ?d_t:(d_t = 3000) time =
       if leds.(i) then begin
 	(* On valide en attendant un petit coup *)
 	validate reg;
-	delayMicroseconds d_t;
+	(* delayMicroseconds d_t; *)
       end;
       shift reg false;
     done;
     first_time := false;
     shift reg true;
   done
+    
+(** Generic function which choose the good mode (Pulse or not) and wait.
+    (time in seconds, float) **)
+let applyReg reg leds time =
+  if reg.pulse then
+    applyRegPulse reg leds time
+  else begin
+    applyRegAll reg leds;
+    delay (int_of_float (time *. 1000.))
+  end
     
 (** Don't forget to apply it with applyReg after **)
 let clearLeds leds =
@@ -79,7 +90,7 @@ let printBoolArray t =
   for k = 0 to Array.length t - 1 do
     Printf.printf "%b;" t.(k)
   done;
-  Printf.printf "\n%!\n"
+  Printf.printf "\n%!"
     
 
 (** This function is usefull to find a LED in a logarithm time **)
@@ -95,23 +106,21 @@ let findLedNumber reg ?time_answer:(time_answer = 3) leds0 =
   let i = ref 0 in
   let j = ref n in
   while !i < (!j - 1) do
-    Printf.printf "%d;%d" !i !j;
     let middle = !i + (!j - !i)/2 in
     makeIntervalArray leds !i middle;
-    applyReg reg leds;
+    applyRegAll reg leds;
     Printf.printf "\nLighted ? (1 = Yes, other = no) %!";
     let res = input_line stdin in
     if res = "1" then
       j := middle
     else
       i := middle;
-    Printf.printf "%d;%d" !i !j;
   done;
   if time_answer > 0 then begin
     Printf.printf "\nI think it's this LED : %d.\n%!" !i;
     clearLeds leds;
     leds.(!i) <- true;
-    applyReg reg leds;
+    applyRegAll reg leds;
     Unix.sleep time_answer
   end
 
