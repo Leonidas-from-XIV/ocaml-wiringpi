@@ -8,8 +8,11 @@ let _ =
   (* On crée le register *)
   let reg = (11,13,15) in
   (* On initialise *)
-  let leds = initRegister reg ~nb_reg:1 in
+  let leds = initReg reg ~nb_reg:1 in
   (* On boucle pour afficher les leds unes par unes *)
+
+  Printf.printf "début\n%!";
+  findLedNumber reg leds;
   while true do
     
     for k = 0 to (Array.length leds) - 1 do
