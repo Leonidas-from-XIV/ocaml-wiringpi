@@ -1,7 +1,8 @@
 * Use
 To use it just run
 : make
-and then ./sapin_noel.bin
+and then
+: sudo ./sapin_noel.bin
 
 * Goal
 This script uses the wiringPi library http://wiringpi.com/ (thank you for your job) and adapt it in order to make it usable in Ocaml. Must common functions are implemented (see wiringPiOcaml.ml) but lot's a function aren't present for the moment. It's very simple to add these functions, so you can add them and if you want I can add your modifications.
