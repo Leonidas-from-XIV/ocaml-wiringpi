@@ -6,7 +6,7 @@ let _ =
   setupPhys ();
   (* reg : pin_value = p_v, pin_shift = p_s, pin_apply = p_a *)
   (* On crée le register *)
-  let reg = (11,13,15) in
+  let reg = genReg 11 13 15 ~invert:true in
   (* On initialise *)
   let leds = initReg reg ~nb_reg:1 in
   (* On boucle pour afficher les leds unes par unes *)

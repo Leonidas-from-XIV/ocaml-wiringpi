@@ -6,30 +6,33 @@
 *)
 open WiringPiOcaml
 (** reg : (pin_value = p_v, pin_shift = p_s, pin_apply = p_a). It is
-    used to contain the needed input **)
-type reg = int * int * int;;
+    used to contain the informations about connections. The invert
+    variable is used in order to revert the mode (false = lighted,
+    true = not lighted) **)
+type reg = {p_v : int; p_s : int; p_a : int; invert : bool}
 
 (** The first thing to do is setupPhys (). This function put in OUTPUT
     mode the outputs and return back a bool array which represent the output of registers (begining with the first LED of the first shift register) **)
 let initReg ?nb_reg:(nb_reg = 1) reg =
-  let (p_v, p_s, p_a) = reg in
-  pinMode p_v 1; (* mode output *)
-  pinMode p_s 1;
-  pinMode p_a 1;
+  pinMode reg.p_v 1; (* mode output *)
+  pinMode reg.p_s 1;
+  pinMode reg.p_a 1;
   Array.make (8*nb_reg) false (* return back an array for all pieces *)
 
 let write pin value = digitalWrite pin (if value then 1 else 0)
 
+let genReg ?invert:(invert = false) pin_value pin_shift pin_apply =
+  {p_v = pin_value; p_s = pin_shift; p_a = pin_apply; invert = invert}
+  
 (** This function apply all modifications to the register **)
 let applyReg reg leds =
-  let (p_v, p_s, p_a) = reg in
-  write p_a false;
+  write reg.p_a false;
   for i = (Array.length leds) - 1 downto 0 do
-    write p_s false;
-    write p_v leds.(i);
-    write p_s true;
+    write reg.p_s false;
+    write reg.p_v (leds.(i) <> reg.invert); (* On inverse si besoin *)
+    write reg.p_s true;
   done;
-  write p_a true
+  write reg.p_a true
 
 
 (** Don't forget to apply it with applyReg after **)
