@@ -45,11 +45,13 @@ let _ =
   ignore(setupPhys ());
   (* reg : pin_value = p_v, pin_shift = p_s, pin_apply = p_a *)
   (* On crée le register *)
-  (* En mode pulse : let reg = genReg 11 13 15 ~pulse:true in *)
+  (* En mode pulse : *)
+  (* let reg = genReg 11 13 15 ~pulse:true in *)
   let reg = genReg 11 13 15 in
   (* On initialise *)
   let leds = initReg reg ~nb_reg:1 in
-
+  let t = true
+  and f = false in
   Printf.printf "Début\n%!";
   (* And a pretty animation *)
   anim_01 reg leds max_int;
