@@ -11,6 +11,7 @@ OUTPUT=$(MAIN:.ml=.bin)
 
 all: $(OBJECTS)
 	$(CC) $(OPT) -cclib -lwiringPi unix.cma $(SOURCES) $(MAIN) -o $(OUTPUT)
+	$(CC) $(OPT) -cclib -lwiringPi unix.cma $(SOURCES) test_led.ml -o test_led.bin
 
 clean:
 	rm -f *.cmo *.cmi *.cmx 

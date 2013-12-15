@@ -28,16 +28,35 @@ let anim_01 reg leds n =
     clearLeds leds;
     for k = 0 to (Array.length leds) - 1 do
       leds.(k) <- true;
-      applyReg reg leds 0.1;
+      applyReg reg leds 0.2;
       leds.(k) <- false
     done;
     for k = (Array.length leds) - 2 downto 0 do
       leds.(k) <- true;
-      applyReg reg leds 0.1;
+      applyReg reg leds 0.2;
       leds.(k) <- false
     done;
     lightLeds leds;
     applyReg reg leds 1.;
+  done
+
+let anim_02 reg leds n =
+  let t = ref 1. in
+  for i = 0 to n do
+    clearLeds leds;
+    for k = 0 to (Array.length leds) - 1 do
+      leds.(k) <- true;
+      applyReg reg leds (!t /. 10.);
+      leds.(k) <- false
+    done;
+    for k = (Array.length leds) - 2 downto 0 do
+      leds.(k) <- true;
+      applyReg reg leds (!t /. 10.);
+      leds.(k) <- false
+    done;
+    lightLeds leds;
+    applyReg reg leds !t;
+    t := !t /. 1.2;
   done
 
 let _ =
@@ -47,9 +66,9 @@ let _ =
   (* On crée le register *)
   (* En mode pulse : *)
   (* let reg = genReg 11 13 15 ~pulse:true in *)
-  let reg = genReg 11 13 15 in
+  let reg = genReg 11 13 15 ~invert:false in
   (* On initialise *)
-  let leds = initReg reg ~nb_reg:1 in
+  let leds = initReg reg ~nb_reg:2 in
   let t = true
   and f = false in
   Printf.printf "Début\n%!";
