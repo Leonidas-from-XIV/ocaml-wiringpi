@@ -1,6 +1,10 @@
 open WiringPiOcaml;;
 open ShiftReg;;
 
+let g_invert = false
+and g_pulse = false
+and g_nb_reg = 2
+
 (* Ici on utilise des fonctions plus souples mais moins agréables pour les tests. Pour voir les fonctions classiques, cf anim_01 *)
 let test reg leds =
   lightLeds leds;
@@ -60,17 +64,17 @@ let anim_02 reg leds n =
   done
 
 let _ =
+  let t = true
+  and f = false in
   (* On choisit le mode d'affichage Phys *)
   ignore(setupPhys ());
   (* reg : pin_value = p_v, pin_shift = p_s, pin_apply = p_a *)
   (* On crée le register *)
   (* En mode pulse : *)
   (* let reg = genReg 11 13 15 ~pulse:true in *)
-  let reg = genReg 11 13 15 ~invert:false in
+  let reg = genReg 11 13 15 ~invert:g_invert ~pulse:g_pulse in
   (* On initialise *)
-  let leds = initReg reg ~nb_reg:2 in
-  let t = true
-  and f = false in
+  let leds = initReg reg ~nb_reg:g_nb_reg in
   Printf.printf "Début\n%!";
   (* And a pretty animation *)
   anim_01 reg leds max_int;

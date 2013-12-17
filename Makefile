@@ -1,3 +1,4 @@
+# This Makefile is really not optimized...
 CC=ocamlc
 OPT=-custom
 
