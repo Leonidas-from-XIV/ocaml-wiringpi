@@ -6,4 +6,7 @@ Makefile
 configure
 _tags
 setup.ml
+setup.data
+setup.log
 myocamlbuild.ml
+_build/
