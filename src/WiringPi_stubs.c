@@ -9,35 +9,30 @@
 #include <wiringPi.h>
 #include <wiringShift.h>
 
-CAMLprim
 value caml_hello(value unit) {
      CAMLparam1(unit);
      printf("Hello world!\n");
      CAMLreturn(Val_unit);
 }
 
-CAMLprim
 value caml_wiringPiSetup(value unit)
 {
      CAMLparam1(unit);
      CAMLreturn(Val_int(wiringPiSetup()));
 }
 
-CAMLprim
 value caml_wiringPiSetupGpio(value unit)
 {
      CAMLparam1(unit);
      CAMLreturn(Val_int(wiringPiSetupGpio()));
 }
 
-CAMLprim
 value caml_wiringPiSetupPhys(value unit)
 {
      CAMLparam1(unit);
      CAMLreturn(Val_int(wiringPiSetupPhys()));
 }
 
-CAMLprim
 value caml_wiringPiSetupSys(value unit)
 {
      CAMLparam1(unit);
@@ -46,7 +41,6 @@ value caml_wiringPiSetupSys(value unit)
 
 // Core functions
 
-CAMLprim
 value caml_pinMode(value pin, value mode)
 {
      CAMLparam2(pin, mode);
@@ -54,7 +48,6 @@ value caml_pinMode(value pin, value mode)
      CAMLreturn(Val_unit);
 }
 
-CAMLprim
 value caml_pullUpDnControl(value pin, value pud)
 {
      CAMLparam2(pin, pud);
@@ -62,7 +55,6 @@ value caml_pullUpDnControl(value pin, value pud)
      CAMLreturn(Val_unit);
 }
 
-CAMLprim
 value caml_digitalWrite(value pin, value value_p)
 {
      CAMLparam2(pin, value_p);
@@ -70,7 +62,6 @@ value caml_digitalWrite(value pin, value value_p)
      CAMLreturn(Val_unit);
 }
 
-CAMLprim
 value caml_pwmWrite(value pin, value value_p)
 {
      CAMLparam2(pin, value_p);
@@ -78,7 +69,6 @@ value caml_pwmWrite(value pin, value value_p)
      CAMLreturn(Val_unit);
 }
 
-CAMLprim
 value caml_digitalRead(value pin)
 {
      CAMLparam1(pin);
@@ -89,7 +79,6 @@ value caml_digitalRead(value pin)
 
 // Raspberry Pi Specifics
 
-CAMLprim
 value caml_digitalWriteByte(value value_p)
 {
      CAMLparam1(value_p);
@@ -103,24 +92,24 @@ value caml_digitalWriteByte(value value_p)
 
 // Timing
 
-/* This returns a number representing the number if milliseconds since your program called one of the wiringPiSetup functions. */
-CAMLprim
+/* This returns a number representing the number if milliseconds since your
+ * program called one of the wiringPiSetup functions. */
 value caml_millis(value unit)
 {
      CAMLparam1(unit);
      CAMLreturn(Val_int(millis()));
 }
 
-/* This returns a number representing the number of microseconds since your program called one of the wiringPiSetup functions. */
-CAMLprim
+/* This returns a number representing the number of microseconds since your
+ * program called one of the wiringPiSetup functions. */
 value caml_micros(value unit)
 {
      CAMLparam1(unit);
      CAMLreturn(Val_int(micros()));
 }
 
-/* This causes program execution to pause for at least howLong milliseconds. Due to the multi-tasking nature of Linux it could be longer. */
-CAMLprim
+/* This causes program execution to pause for at least howLong milliseconds.
+ * Due to the multi-tasking nature of Linux it could be longer. */
 value caml_delay(value howLong)
 {
      CAMLparam1(howLong);
@@ -128,8 +117,13 @@ value caml_delay(value howLong)
      CAMLreturn(Val_unit);
 }
 
-/* This causes program execution to pause for at least howLong microseconds. Due to the multi-tasking nature of Linux it could be longer. Delays under 100 microseconds are timed using a hard-coded loop continually polling the system time, Delays over 100 microseconds are done using the system nanosleep() function – You may need to consider the implications of very short delays on the overall performance of the system, especially if using threads. */
-CAMLprim
+/* This causes program execution to pause for at least howLong microseconds.
+ * Due to the multi-tasking nature of Linux it could be longer. Delays under
+ * 100 microseconds are timed using a hard-coded loop continually polling the
+ * system time, Delays over 100 microseconds are done using the system
+ * nanosleep() function – You may need to consider the implications of very
+ * short delays on the overall performance of the system, especially if using
+ * threads. */
 value caml_delayMicroseconds(value howLong)
 {
      CAMLparam1(howLong);
