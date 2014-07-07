@@ -3,7 +3,7 @@ Name:        WiringPi
 Version:     0.0.1
 Synopsis:    Binding to the WiringPi library for hardware access
 Authors:     Tobias Bora, Marek Kubica
-License:     GPL-3.0
+License:     LGPL-3 with OCaml linking exception
 Plugins:     META (0.4), DevFiles (0.4)
 
 Library "WiringPi"
