@@ -76,7 +76,18 @@ value caml_digitalRead(value pin)
   CAMLreturn(Val_int(digitalRead(Int_val(pin))));
 }
 
-// AnalogRead and AnalogWrite needs to be added (module must be added)
+value caml_analogRead(value pin)
+{
+  CAMLparam1(pin);
+  CAMLreturn(Val_int(analogRead(Int_val(pin))));
+}
+
+value caml_analogWrite(value pin, value value_p)
+{
+  CAMLparam2(pin, value_p);
+  analogWrite(Int_val(pin), Int_val(value_p));
+  CAMLreturn(Val_unit);
+}
 
 // Raspberry Pi Specifics
 

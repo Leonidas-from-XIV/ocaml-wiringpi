@@ -35,6 +35,9 @@ external pwmWrite : int -> int -> unit = "caml_pwmWrite"
 external digitalRead : int -> int = "caml_digitalRead"
 external digitalWriteByte : int -> unit = "caml_digitalWriteByte"
 
+external analogRead: int -> int = "caml_analogRead"
+external analogWrite: int -> int -> unit = "caml_analogWrite"
+
 
 (* ##########  Timing ########## *)
 (* Use it to wait a few ms or µs. If you want to wait for several
