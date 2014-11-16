@@ -16,15 +16,15 @@ external setupSys : unit -> int = "caml_wiringPiSetupSys"
  * Note that only wiringPi pin 1 (BCM_GPIO 18) supports PWM output and only
  * wiringPi pin 7 (BCM_GPIO 4) supports CLOCK output modes. *)
 external pinMode : int -> int -> unit = "caml_pinMode"
-    
+
 (* This sets the pull-up or pull-down resistor mode on the given pin, which
  * should be set as an input. *)
 external pullUpDnControl : int -> int -> unit = "caml_pullUpDnControl"
-    
+
 (* Writes the value HIGH or LOW (1 or 0) to the given pin which must have
  * been previously set as an output. *)
 external digitalWrite : int -> int -> unit = "caml_digitalWrite"
-    
+
 (* Writes the value to the PWM register for the given pin.
  * The Raspberry Pi has one on-board PWM pin, pin 1 (BMC_GPIO 18, Phys 12) and
  * the range is 0-1024. Other PWM devices may have other PWM ranges *)
@@ -35,7 +35,7 @@ external pwmWrite : int -> int -> unit = "caml_pwmWrite"
 external digitalRead : int -> int = "caml_digitalRead"
 external digitalWriteByte : int -> unit = "caml_digitalWriteByte"
 
-    
+
 (* ##########  Timing ########## *)
 (* Use it to wait a few ms or µs. If you want to wait for several
    secondes, use Unix.sleep. *)
@@ -43,13 +43,13 @@ external digitalWriteByte : int -> unit = "caml_digitalWriteByte"
 external delay : int -> unit = "caml_delay"
 (* wait n µs *)
 external delayMicroseconds : int -> unit = "caml_delayMicroseconds"
-    
+
 (* This returns a number representing the number if ms/µs since your program
  * called one of the wiringPiSetup functions. *)
 external millis : unit -> int = "caml_millis"
 external micros : unit -> int = "caml_micros"
 
-    
+
 (* ################# Name of pins : ################# *)
 (* +----------+-Rev2-+------+--------+------+-------+ *)
 (* | wiringPi | GPIO | Phys | Name   | Mode | Value | *)
