@@ -1,56 +1,53 @@
 (** This module is useful to communicate with the GPIO ports of a Raspberry Pi.
     It uses the WiringPi library: http://wiringpi.com/ **)
 
-(* Test function *)
-external test_hello_world : unit -> unit = "caml_hello"
-
 (* Use it at the very beginning to choose the numeroting mode *)
-external setup : unit -> int = "caml_wiringPiSetup"
-external setupGio : unit -> int = "caml_wiringPiSetupGpio"
-external setupPhys : unit -> int = "caml_wiringPiSetupPhys"
-external setupSys : unit -> int = "caml_wiringPiSetupSys"
+external setup: unit -> int = "ocamlwiring_setup"
+external setup_gpio: unit -> int = "ocamlwiring_setup_gpio"
+external setup_phys: unit -> int = "ocamlwiring_setup_phys"
+external setup_sys: unit -> int = "ocamlwiring_setup_sys"
 
 (* ##########  Write on the device ########## *)
 (* This sets the mode of a pin to either INPUT (= 0), OUTPUT (= 1),
  * PWM_OUTPUT (= 2) or GPIO_CLOCK (= 3).
  * Note that only wiringPi pin 1 (BCM_GPIO 18) supports PWM output and only
  * wiringPi pin 7 (BCM_GPIO 4) supports CLOCK output modes. *)
-external pinMode : int -> int -> unit = "caml_pinMode"
+external pin_mode: int -> int -> unit = "ocamlwiring_pin_mode"
 
 (* This sets the pull-up or pull-down resistor mode on the given pin, which
  * should be set as an input. *)
-external pullUpDnControl : int -> int -> unit = "caml_pullUpDnControl"
+external pull_up_dn_control: int -> int -> unit = "ocamlwiring_pull_up_dn_control"
 
 (* Writes the value HIGH or LOW (1 or 0) to the given pin which must have
  * been previously set as an output. *)
-external digitalWrite : int -> int -> unit = "caml_digitalWrite"
+external digital_write: int -> int -> unit = "ocamlwiring_digital_write"
 
 (* Writes the value to the PWM register for the given pin.
  * The Raspberry Pi has one on-board PWM pin, pin 1 (BMC_GPIO 18, Phys 12) and
  * the range is 0-1024. Other PWM devices may have other PWM ranges *)
-external pwmWrite : int -> int -> unit = "caml_pwmWrite"
+external pwm_write: int -> int -> unit = "ocamlwiring_pwm_write"
 
 (* This function returns the value read at the given pin. It will be HIGH
  * or LOW (1 or 0) depending on the logic level at the pin. *)
-external digitalRead : int -> int = "caml_digitalRead"
-external digitalWriteByte : int -> unit = "caml_digitalWriteByte"
+external digital_read: int -> int = "ocamlwiring_digital_read"
+external digital_write_byte: int -> unit = "ocamlwiring_digital_write_byte"
 
-external analogRead: int -> int = "caml_analogRead"
-external analogWrite: int -> int -> unit = "caml_analogWrite"
+external analog_read: int -> int = "ocamlwiring_analog_read"
+external analog_write: int -> int -> unit = "ocamlwiring_analog_write"
 
 
 (* ##########  Timing ########## *)
 (* Use it to wait a few ms or µs. If you want to wait for several
    secondes, use Unix.sleep. *)
 (* wait n ms *)
-external delay : int -> unit = "caml_delay"
+external delay: int -> unit = "ocamlwiring_delay"
 (* wait n µs *)
-external delayMicroseconds : int -> unit = "caml_delayMicroseconds"
+external delay_microseconds: int -> unit = "ocamlwiring_delay_microseconds"
 
 (* This returns a number representing the number if ms/µs since your program
  * called one of the wiringPiSetup functions. *)
-external millis : unit -> int = "caml_millis"
-external micros : unit -> int = "caml_micros"
+external millis : unit -> int = "ocamlwiring_millis"
+external micros : unit -> int = "ocamlwiring_micros"
 
 
 (* ################# Name of pins : ################# *)

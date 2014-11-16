@@ -9,32 +9,25 @@
 #include <wiringPi.h>
 #include <wiringShift.h>
 
-value caml_hello(value unit)
-{
-  CAMLparam1(unit);
-  printf("Hello world!\n");
-  CAMLreturn(Val_unit);
-}
-
-value caml_wiringPiSetup(value unit)
+value ocamlwiring_setup(value unit)
 {
   CAMLparam1(unit);
   CAMLreturn(Val_int(wiringPiSetup()));
 }
 
-value caml_wiringPiSetupGpio(value unit)
+value ocamlwiring_setup_gpio(value unit)
 {
   CAMLparam1(unit);
   CAMLreturn(Val_int(wiringPiSetupGpio()));
 }
 
-value caml_wiringPiSetupPhys(value unit)
+value ocamlwiring_setup_phys(value unit)
 {
   CAMLparam1(unit);
   CAMLreturn(Val_int(wiringPiSetupPhys()));
 }
 
-value caml_wiringPiSetupSys(value unit)
+value ocamlwiring_setup_sys(value unit)
 {
   CAMLparam1(unit);
   CAMLreturn(Val_int(wiringPiSetupSys()));
@@ -42,47 +35,47 @@ value caml_wiringPiSetupSys(value unit)
 
 // Core functions
 
-value caml_pinMode(value pin, value mode)
+value ocamlwiring_pin_mode(value pin, value mode)
 {
   CAMLparam2(pin, mode);
   pinMode(Int_val(pin), Int_val(mode));
   CAMLreturn(Val_unit);
 }
 
-value caml_pullUpDnControl(value pin, value pud)
+value ocamlwiring_pull_up_dn_control(value pin, value pud)
 {
   CAMLparam2(pin, pud);
   pullUpDnControl(Int_val(pin), Int_val(pin));
   CAMLreturn(Val_unit);
 }
 
-value caml_digitalWrite(value pin, value value_p)
+value ocamlwiring_digital_write(value pin, value value_p)
 {
   CAMLparam2(pin, value_p);
   digitalWrite(Int_val(pin), Int_val(value_p));
   CAMLreturn(Val_unit);
 }
 
-value caml_pwmWrite(value pin, value value_p)
+value ocamlwiring_pwm_write(value pin, value value_p)
 {
   CAMLparam2(pin, value_p);
   pwmWrite(Int_val(pin), Int_val(value_p));
   CAMLreturn(Val_unit);
 }
 
-value caml_digitalRead(value pin)
+value ocamlwiring_digital_read(value pin)
 {
   CAMLparam1(pin);
   CAMLreturn(Val_int(digitalRead(Int_val(pin))));
 }
 
-value caml_analogRead(value pin)
+value ocamlwiring_analog_read(value pin)
 {
   CAMLparam1(pin);
   CAMLreturn(Val_int(analogRead(Int_val(pin))));
 }
 
-value caml_analogWrite(value pin, value value_p)
+value ocamlwiring_analog_write(value pin, value value_p)
 {
   CAMLparam2(pin, value_p);
   analogWrite(Int_val(pin), Int_val(value_p));
@@ -91,7 +84,7 @@ value caml_analogWrite(value pin, value value_p)
 
 // Raspberry Pi Specifics
 
-value caml_digitalWriteByte(value value_p)
+value ocamlwiring_digital_write_byte(value value_p)
 {
   CAMLparam1(value_p);
   digitalWriteByte(Int_val(value_p));
@@ -106,7 +99,7 @@ value caml_digitalWriteByte(value value_p)
 
 /* This returns a number representing the number if milliseconds since your
  * program called one of the wiringPiSetup functions. */
-value caml_millis(value unit)
+value ocamlwiring_millis(value unit)
 {
   CAMLparam1(unit);
   CAMLreturn(Val_int(millis()));
@@ -114,7 +107,7 @@ value caml_millis(value unit)
 
 /* This returns a number representing the number of microseconds since your
  * program called one of the wiringPiSetup functions. */
-value caml_micros(value unit)
+value ocamlwiring_micros(value unit)
 {
   CAMLparam1(unit);
   CAMLreturn(Val_int(micros()));
@@ -122,10 +115,10 @@ value caml_micros(value unit)
 
 /* This causes program execution to pause for at least howLong milliseconds.
  * Due to the multi-tasking nature of Linux it could be longer. */
-value caml_delay(value howLong)
+value ocamlwiring_delay(value how_long)
 {
-  CAMLparam1(howLong);
-  delay(Int_val(howLong));
+  CAMLparam1(how_long);
+  delay(Int_val(how_long));
   CAMLreturn(Val_unit);
 }
 
@@ -136,9 +129,9 @@ value caml_delay(value howLong)
  * nanosleep() function – You may need to consider the implications of very
  * short delays on the overall performance of the system, especially if using
  * threads. */
-value caml_delayMicroseconds(value howLong)
+value ocamlwiring_delay_microseconds(value how_long)
 {
-  CAMLparam1(howLong);
-  delayMicroseconds(Int_val(howLong));
+  CAMLparam1(how_long);
+  delayMicroseconds(Int_val(how_long));
   CAMLreturn(Val_unit);
 }
