@@ -1,0 +1,16 @@
+opam-version: "1.2"
+maintainer: "marek@xivilization.net"
+homepage: "https://github.com/Leonidas-from-XIV/ocaml-wiringpi"
+license: "LGPL-3 with OCaml linking exception"
+build: ["jbuilder" "build" "-p" name "-j" jobs]
+depends: [
+  "jbuilder" {build}
+]
+post-messages: [
+  "
+  This package requires WiringPi development files installed.
+  Tentative instructions : https://gist.githubusercontent.com/Leonidas-from-XIV/a1a7315ac01f7fbee3f0/raw
+  "
+  {failure}
+]
+available: os = "linux"

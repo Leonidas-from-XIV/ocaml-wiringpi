@@ -1,12 +1,4 @@
-*.mllib
-*.mldylib
-*.clib
-META
-Makefile
-configure
-_tags
-setup.ml
-setup.data
-setup.log
-myocamlbuild.ml
-_build/
+/_build/
+/_opam/
+.merlin
+*.install

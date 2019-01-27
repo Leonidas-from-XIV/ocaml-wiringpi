@@ -1,0 +1,3 @@
+(library
+  ((name wiringpi)
+   (public_name wiringpi)))
