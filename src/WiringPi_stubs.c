@@ -45,7 +45,7 @@ value ocamlwiring_pin_mode(value pin, value mode)
 value ocamlwiring_pull_up_dn_control(value pin, value pud)
 {
   CAMLparam2(pin, pud);
-  pullUpDnControl(Int_val(pin), Int_val(pin));
+  pullUpDnControl(Int_val(pin), Int_val(pud));
   CAMLreturn(Val_unit);
 }
 
