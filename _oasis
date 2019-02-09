@@ -13,3 +13,8 @@ Library "WiringPi"
   CSources:   WiringPi_stubs.c
   CCLib:      -lwiringPi
 
+Executable "wpi-button-example"
+  Path:         examples/
+  BuildTools:   ocamlbuild
+  MainIs:       button.ml
+  BuildDepends: WiringPi,unix
