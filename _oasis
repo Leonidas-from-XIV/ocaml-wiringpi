@@ -9,7 +9,12 @@ Plugins:     META (0.4), DevFiles (0.4)
 Library "WiringPi"
   Path:       src/
   BuildTools: ocamlbuild
-  Modules:    WiringPi
+  Modules:    WiringPi, Gpio3
   CSources:   WiringPi_stubs.c
   CCLib:      -lwiringPi
-  
+
+Executable "wpi-button-example"
+  Path:         examples/
+  BuildTools:   ocamlbuild
+  MainIs:       button.ml
+  BuildDepends: WiringPi,unix
